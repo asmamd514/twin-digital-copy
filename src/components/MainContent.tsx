@@ -3,10 +3,14 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Input } from "@/components/ui/input";
 import { Card } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Search, MapPin } from "lucide-react";
+import { Search, MapPin, Settings } from "lucide-react";
+import { useState } from "react";
 import InternshipCard from "./InternshipCard";
+import MatchImprovementModal from "./MatchImprovementModal";
 
 const MainContent = () => {
+  const [showRecommendedOnly, setShowRecommendedOnly] = useState(false);
+  const [isMatchModalOpen, setIsMatchModalOpen] = useState(false);
   const internships = [
     {
       company: "DABUR INDIA LIMITED",
@@ -99,53 +103,79 @@ const MainContent = () => {
             </p>
           </Card>
 
-          {/* Filters */}
-          <div className="grid grid-cols-5 gap-4">
-            <Select>
-              <SelectTrigger>
-                <SelectValue placeholder="Select State" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="gujarat">Gujarat</SelectItem>
-                <SelectItem value="west-bengal">West Bengal</SelectItem>
-                <SelectItem value="andhra-pradesh">Andhra Pradesh</SelectItem>
-              </SelectContent>
-            </Select>
+          {/* Filters or Ranking Preferences */}
+          {!showRecommendedOnly ? (
+            <div className="grid grid-cols-5 gap-4">
+              <Select>
+                <SelectTrigger>
+                  <SelectValue placeholder="Select State" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="gujarat">Gujarat</SelectItem>
+                  <SelectItem value="west-bengal">West Bengal</SelectItem>
+                  <SelectItem value="andhra-pradesh">Andhra Pradesh</SelectItem>
+                </SelectContent>
+              </Select>
 
-            <Select>
-              <SelectTrigger>
-                <SelectValue placeholder="Select District" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="surat">Surat</SelectItem>
-                <SelectItem value="dinajpur">Dinajpur Dakshin</SelectItem>
-              </SelectContent>
-            </Select>
+              <Select>
+                <SelectTrigger>
+                  <SelectValue placeholder="Select District" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="surat">Surat</SelectItem>
+                  <SelectItem value="dinajpur">Dinajpur Dakshin</SelectItem>
+                </SelectContent>
+              </Select>
 
-            <Select>
-              <SelectTrigger>
-                <SelectValue placeholder="Select Sector" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="sales">Sales & Marketing</SelectItem>
-                <SelectItem value="engineering">Engineering</SelectItem>
-              </SelectContent>
-            </Select>
+              <Select>
+                <SelectTrigger>
+                  <SelectValue placeholder="Select Sector" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="sales">Sales & Marketing</SelectItem>
+                  <SelectItem value="engineering">Engineering</SelectItem>
+                </SelectContent>
+              </Select>
 
-            <Select>
-              <SelectTrigger>
-                <SelectValue placeholder="Select Field" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="fmcg">FMCG</SelectItem>
-                <SelectItem value="banking">Banking</SelectItem>
-              </SelectContent>
-            </Select>
+              <Select>
+                <SelectTrigger>
+                  <SelectValue placeholder="Select Field" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="fmcg">FMCG</SelectItem>
+                  <SelectItem value="banking">Banking</SelectItem>
+                </SelectContent>
+              </Select>
 
-            <Button className="bg-red-500 hover:bg-red-600 text-white">
-              <Search className="w-4 h-4" />
-            </Button>
-          </div>
+              <Button className="bg-red-500 hover:bg-red-600 text-white">
+                <Search className="w-4 h-4" />
+              </Button>
+            </div>
+          ) : (
+            <div className="flex items-center gap-4">
+              <div className="flex items-center gap-2">
+                <Settings className="w-4 h-4 text-orange-500" />
+                <span className="text-sm font-medium">Ranking Preferences</span>
+              </div>
+              <Select>
+                <SelectTrigger className="w-48">
+                  <SelectValue placeholder="Select preference" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="location">Location</SelectItem>
+                  <SelectItem value="skills">Skills</SelectItem>
+                  <SelectItem value="domain">Domain</SelectItem>
+                </SelectContent>
+              </Select>
+              <Button 
+                variant="outline" 
+                onClick={() => setShowRecommendedOnly(false)}
+                className="border-orange-300 text-orange-600 hover:bg-orange-50"
+              >
+                Show All Opportunities
+              </Button>
+            </div>
+          )}
 
           {/* Filter by radius */}
           <div className="flex items-center gap-4">
@@ -156,17 +186,26 @@ const MainContent = () => {
             <div className="flex-1 max-w-md">
               <Input placeholder="Enter kms" className="w-full" />
             </div>
-            <Button className="bg-blue-600 hover:bg-blue-700 text-white px-6">
-              Your top recommendations
+            <Button 
+              className="bg-orange-500 hover:bg-orange-600 text-white px-6"
+              onClick={() => setShowRecommendedOnly(!showRecommendedOnly)}
+            >
+              {showRecommendedOnly ? 'Show All' : 'Your top recommendations'}
             </Button>
             <Input placeholder="Search..." className="max-w-xs" />
           </div>
 
           {/* Internship Cards Grid */}
           <div className="grid grid-cols-3 gap-4">
-            {internships.map((internship, index) => (
-              <InternshipCard key={index} {...internship} />
-            ))}
+            {internships
+              .filter(internship => !showRecommendedOnly || internship.recommendation)
+              .map((internship, index) => (
+                <InternshipCard 
+                  key={index} 
+                  {...internship} 
+                  onIncreaseMatch={() => setIsMatchModalOpen(true)}
+                />
+              ))}
           </div>
         </TabsContent>
 
@@ -188,6 +227,11 @@ const MainContent = () => {
           </div>
         </TabsContent>
       </Tabs>
+      
+      <MatchImprovementModal 
+        isOpen={isMatchModalOpen} 
+        onClose={() => setIsMatchModalOpen(false)} 
+      />
     </div>
   );
 };

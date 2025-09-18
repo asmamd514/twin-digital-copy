@@ -14,6 +14,7 @@ interface InternshipCardProps {
   candidatesApplied: number;
   tag?: string;
   recommendation?: number;
+  onIncreaseMatch?: () => void;
 }
 
 const InternshipCard = ({
@@ -27,10 +28,15 @@ const InternshipCard = ({
   benefits,
   candidatesApplied,
   tag,
-  recommendation
+  recommendation,
+  onIncreaseMatch
 }: InternshipCardProps) => {
   return (
-    <Card className="p-4 space-y-3 relative">
+    <Card className={`p-4 space-y-3 relative transition-all duration-300 ${
+      recommendation 
+        ? 'shadow-lg hover:shadow-xl transform hover:-translate-y-1 bg-gradient-to-br from-white to-green-50 border-green-200' 
+        : 'hover:shadow-md'
+    }`}>
       {/* Recommendation Header */}
       {recommendation && (
         <div className="absolute -top-3 left-4 bg-gradient-to-r from-green-500 to-green-600 text-white px-4 py-1 rounded-full text-xs font-bold shadow-lg">
@@ -88,13 +94,23 @@ const InternshipCard = ({
       </div>
 
       {/* Action Buttons */}
-      <div className="flex gap-2 pt-2">
+      <div className={`flex gap-2 pt-2 ${recommendation ? 'grid grid-cols-3' : ''}`}>
         <Button variant="outline" size="sm" className="flex-1 bg-blue-600 text-white hover:bg-blue-700">
           View
         </Button>
         <Button size="sm" className="flex-1 bg-green-600 hover:bg-green-700 text-white">
           Apply
         </Button>
+        {recommendation && (
+          <Button 
+            variant="outline" 
+            size="sm" 
+            className="flex-1 border-orange-300 text-orange-600 hover:bg-orange-50"
+            onClick={onIncreaseMatch}
+          >
+            Increase Match
+          </Button>
+        )}
       </div>
     </Card>
   );
