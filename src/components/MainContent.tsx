@@ -17,7 +17,8 @@ const MainContent = () => {
       district: "Surat",
       benefits: "Other",
       candidatesApplied: 0,
-      tag: "FMCG (Fast-Moving Consumer Goods)"
+      tag: "FMCG (Fast-Moving Consumer Goods)",
+      recommendation: 95
     },
     {
       company: "HDFC BANK LIMITED", 
@@ -39,7 +40,8 @@ const MainContent = () => {
       district: "Deogharh Dwarka",
       benefits: "Other",
       candidatesApplied: 0,
-      tag: "FMCG (Fast-Moving Consumer Goods)"
+      tag: "FMCG (Fast-Moving Consumer Goods)",
+      recommendation: 88
     },
     {
       company: "DABUR INDIA LIMITED",
@@ -71,7 +73,8 @@ const MainContent = () => {
       state: "GUJARAT",
       district: "Surat", 
       benefits: "Other",
-      candidatesApplied: 0
+      candidatesApplied: 0,
+      recommendation: 92
     }
   ];
 
@@ -153,6 +156,9 @@ const MainContent = () => {
             <div className="flex-1 max-w-md">
               <Input placeholder="Enter kms" className="w-full" />
             </div>
+            <Button className="bg-blue-600 hover:bg-blue-700 text-white px-6">
+              Your top recommendations
+            </Button>
             <Input placeholder="Search..." className="max-w-xs" />
           </div>
 

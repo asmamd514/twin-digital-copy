@@ -13,6 +13,7 @@ interface InternshipCardProps {
   benefits: string;
   candidatesApplied: number;
   tag?: string;
+  recommendation?: number;
 }
 
 const InternshipCard = ({
@@ -25,10 +26,17 @@ const InternshipCard = ({
   district,
   benefits,
   candidatesApplied,
-  tag
+  tag,
+  recommendation
 }: InternshipCardProps) => {
   return (
-    <Card className="p-4 space-y-3">
+    <Card className="p-4 space-y-3 relative">
+      {/* Recommendation Header */}
+      {recommendation && (
+        <div className="absolute -top-3 left-4 bg-gradient-to-r from-green-500 to-green-600 text-white px-4 py-1 rounded-full text-xs font-bold shadow-lg">
+          RECOMMENDED {recommendation}% MATCH
+        </div>
+      )}
       {/* Company Header */}
       <div className="flex items-center gap-3">
         <div className="w-12 h-8 bg-gray-100 rounded border flex items-center justify-center">
