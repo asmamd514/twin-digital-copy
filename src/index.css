@@ -17,10 +17,10 @@ All colors MUST be HSL.
     --popover: 0 0% 100%;
     --popover-foreground: 222.2 84% 4.9%;
 
-    --primary: 222.2 47.4% 11.2%;
-    --primary-foreground: 210 40% 98%;
+    --primary: 20 100% 50%;
+    --primary-foreground: 0 0% 100%;
 
-    --secondary: 210 40% 96.1%;
+    --secondary: 210 17% 98%;
     --secondary-foreground: 222.2 47.4% 11.2%;
 
     --muted: 210 40% 96.1%;
@@ -36,7 +36,19 @@ All colors MUST be HSL.
     --input: 214.3 31.8% 91.4%;
     --ring: 222.2 84% 4.9%;
 
-    --radius: 0.5rem;
+    --radius: 0.375rem;
+    
+    /* Government portal specific colors */
+    --gov-orange: 20 100% 50%;
+    --gov-orange-foreground: 0 0% 100%;
+    --gov-blue: 220 70% 50%;
+    --gov-blue-foreground: 0 0% 100%;
+    --gov-green: 140 60% 45%;
+    --gov-green-foreground: 0 0% 100%;
+    --gov-red: 0 70% 55%;
+    --gov-red-foreground: 0 0% 100%;
+    --gov-gray: 210 10% 95%;
+    --gov-gray-foreground: 222.2 47.4% 11.2%;
 
     --sidebar-background: 0 0% 98%;
 
